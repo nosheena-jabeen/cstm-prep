@@ -1,4 +1,4 @@
-# Networking – Technical Interview Questions (Detailed Explanations)
+# Networking – Technical Interview Questions
 
 ---
 
