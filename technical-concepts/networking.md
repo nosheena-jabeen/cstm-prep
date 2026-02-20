@@ -1,328 +1,286 @@
-# Networking Foundations – Technical Interview Notes
-
-This document consolidates core networking concepts commonly assessed in technical interviews. Each section explains the protocol or concept, how it works, and why it matters from a security perspective.
+# Networking – Technical Interview Questions (Detailed Explanations)
 
 ---
 
-# 1. Networking Models
+## 1. Explain the Open Systems Interconnection (OSI) Model
 
-## OSI Model (Open Systems Interconnection)
-
-The OSI model is a seven-layer conceptual framework used to describe how data moves from one system to another over a network. While it is not directly implemented in modern systems, it is essential for troubleshooting and understanding protocol interaction.
+The OSI model is a seven-layer conceptual framework used to describe how data travels between systems across a network. It does not represent a specific implementation, but rather a way of understanding how different networking functions are logically separated.
 
 The seven layers are:
 
-1. Physical – Handles raw bit transmission (cables, voltages, wireless signals).
-2. Data Link – Responsible for MAC addressing and switching.
-3. Network – Logical addressing and routing (IP).
-4. Transport – End-to-end communication (TCP/UDP, port numbers).
-5. Session – Session establishment and teardown.
-6. Presentation – Data formatting, encoding, encryption.
-7. Application – User-facing protocols (HTTP, DNS, FTP, SMTP).
+1. **Physical** – Handles raw transmission of bits across a medium (cables, radio waves, voltages).
+2. **Data Link** – Responsible for MAC addressing and switching. Ensures reliable transmission between directly connected devices.
+3. **Network** – Provides logical addressing and routing using IP.
+4. **Transport** – Ensures end-to-end communication using protocols like TCP and UDP.
+5. **Session** – Manages sessions between applications.
+6. **Presentation** – Handles encryption, encoding, and formatting.
+7. **Application** – Interfaces directly with end-user services (HTTP, FTP, DNS).
 
-From a security perspective, many attacks map cleanly to OSI layers:
-- ARP spoofing → Layer 2
-- IP spoofing → Layer 3
-- TCP SYN flood → Layer 4
-- XSS → Layer 7
-
-Understanding the OSI model allows structured troubleshooting and layered security analysis.
+The OSI model is particularly useful for troubleshooting. For example, if you cannot ping a host, the issue may exist at Layer 1 (cable unplugged), Layer 2 (VLAN misconfiguration), or Layer 3 (routing issue). From a security perspective, many attacks map directly to OSI layers, which helps in understanding where defensive controls should be applied.
 
 ---
 
-## DoD / TCP-IP Model
+## 2. Explain the Department of Defense (DoD) Networking Model
 
-The Department of Defense (DoD) model, also known as the TCP/IP model, simplifies networking into four layers:
+The DoD model, also known as the TCP/IP model, is a simplified four-layer model used to describe real-world networking implementation.
+
+The layers are:
 
 1. Network Access
 2. Internet
 3. Transport
 4. Application
 
-Unlike OSI, this model reflects how real-world protocols are implemented. It combines several OSI layers into broader categories.
+Unlike the OSI model, the TCP/IP model reflects how modern networks actually operate. For example, the Internet layer corresponds to IP routing, while the Transport layer includes TCP and UDP.
 
-The TCP/IP model is more practical, while OSI is more educational.
+The OSI model is more theoretical and educational, whereas the TCP/IP model is more practical and directly tied to protocol stacks implemented in operating systems.
 
 ---
 
-# 2. Core Networking Protocols
+## 3. Explain how DHCP works
 
-## Internet Protocol (IP)
+Dynamic Host Configuration Protocol (DHCP) automatically assigns IP configuration settings to devices joining a network.
 
-IP provides logical addressing and routing between networks. It is connectionless and does not guarantee delivery.
+It follows a four-step process known as DORA:
 
-IPv4 uses 32-bit addresses (e.g., 192.168.1.10).
-IPv6 uses 128-bit addresses.
+1. **Discover** – The client broadcasts a request for an IP address.
+2. **Offer** – The DHCP server responds with an available IP address.
+3. **Request** – The client requests the offered address.
+4. **Acknowledge** – The server confirms and leases the address.
 
-IP packets contain:
+DHCP assigns more than just an IP address. It also provides:
+- Subnet mask
+- Default gateway
+- DNS servers
+- Lease duration
+
+From a security perspective, DHCP can be abused through rogue DHCP servers, which may redirect traffic to malicious gateways, enabling Man-in-the-Middle attacks.
+
+---
+
+## 4. What is a Start of Authority (SOA) record in DNS?
+
+The SOA record defines authoritative information about a DNS zone. It specifies which server is the primary authority for the domain and includes administrative details such as:
+
+- Primary name server
+- Responsible party email
+- Serial number
+- Refresh, retry, and expire timers
+
+The serial number is especially important because secondary DNS servers use it to determine whether zone data needs to be updated.
+
+The SOA record is critical for DNS replication and zone management.
+
+---
+
+## 5. Explain what DNS is and how DNS works
+
+The Domain Name System (DNS) translates human-readable domain names into IP addresses.
+
+When a user enters a domain name:
+
+1. The local system checks its cache.
+2. If not found, it queries a recursive resolver.
+3. The resolver contacts a root server.
+4. The root server directs it to the appropriate Top-Level Domain (TLD) server.
+5. The TLD server points to the authoritative name server.
+6. The authoritative server returns the IP address.
+
+DNS primarily uses UDP on port 53, though TCP is used for large responses and zone transfers.
+
+Security implications include DNS spoofing, cache poisoning, and zone transfer misconfigurations.
+
+---
+
+## 6. Explain the IP protocol and IP addresses
+
+The Internet Protocol (IP) provides logical addressing and routing between networks.
+
+IP is connectionless and does not guarantee delivery. Reliability is handled by higher-layer protocols such as TCP.
+
+IPv4 uses 32-bit addresses (e.g., 192.168.1.10), while IPv6 uses 128-bit addresses to support a vastly larger address space.
+
+Each IP packet contains:
 - Source address
 - Destination address
 - TTL (Time To Live)
 - Protocol identifier
 
-Security relevance:
-- IP spoofing attacks
-- TTL manipulation (used in techniques like firewalking)
+IP is foundational to routing and inter-network communication.
 
 ---
 
-## DHCP (Dynamic Host Configuration Protocol)
+## 7. Explain Classless Inter-Domain Routing (CIDR)
 
-DHCP automatically assigns network configuration to devices.
+CIDR replaces the older class-based IP addressing system.
 
-It follows the DORA process:
+Instead of rigid Class A, B, and C ranges, CIDR uses prefix notation:
 
-1. Discover – Client broadcasts request.
-2. Offer – Server offers an IP address.
-3. Request – Client requests offered address.
-4. Acknowledge – Server confirms lease.
-
-DHCP assigns:
-- IP address
-- Subnet mask
-- Default gateway
-- DNS servers
-
-Security risks:
-- Rogue DHCP servers
-- DHCP starvation attacks
-- Network redirection attacks
-
----
-
-## DNS (Domain Name System)
-
-DNS translates domain names into IP addresses.
-
-Resolution process:
-1. Local cache lookup
-2. Recursive resolver
-3. Root server
-4. TLD server
-5. Authoritative server
-
-DNS uses port 53 (UDP primarily).
-
-### SOA Record (Start of Authority)
-
-The SOA record defines administrative information about a DNS zone, including:
-- Primary name server
-- Contact email
-- Serial number
-- Refresh and retry timers
-
-SOA is critical for zone transfers and DNS replication.
-
-Security relevance:
-- Zone transfer misconfiguration
-- DNS enumeration
-- Data leakage
-
----
-
-## Hosts File
-
-The hosts file maps domain names to IP addresses locally before DNS is queried.
-
-Locations:
-
-Windows:
-```
-C:\Windows\System32\drivers\etc\hosts
-```
-
-Linux:
-```
-/etc/hosts
-```
-
-Security relevance:
-- Malware persistence
-- DNS bypass
-- Redirection attacks
-
----
-
-# 3. Addressing and Routing
-
-## CIDR (Classless Inter-Domain Routing)
-
-CIDR replaces rigid class-based addressing.
-
-Example:
-```
 192.168.1.0/24
-```
 
-The `/24` indicates the number of bits used for the network portion.
+The `/24` indicates that 24 bits are used for the network portion of the address.
 
-CIDR enables efficient IP allocation and subnetting.
+CIDR allows flexible subnetting and efficient IP allocation, reducing waste and improving routing aggregation.
 
 ---
 
-## Distance Vector Routing Protocols
+## 8. Explain how MITM works with ARP
 
-Distance vector protocols determine routes based on distance metrics.
+Address Resolution Protocol (ARP) maps IP addresses to MAC addresses within a local network.
 
-Examples:
+In ARP poisoning:
+
+- The attacker sends forged ARP replies.
+- Victims update their ARP tables with the attacker’s MAC address.
+- Traffic intended for the gateway is sent to the attacker instead.
+
+This allows interception, modification, or redirection of traffic.
+
+ARP has no authentication mechanism, which makes it vulnerable by design.
+
+---
+
+## 9. What is the function of Port Address Translation (PAT)?
+
+PAT allows multiple internal devices to share one public IP address.
+
+It works by translating private IP addresses into a single public IP, differentiating sessions using unique source port numbers.
+
+This is commonly referred to as NAT overload.
+
+PAT conserves public IP space and hides internal network structure.
+
+---
+
+## 10. What is LDAP?
+
+Lightweight Directory Access Protocol (LDAP) is used to query and manage directory services.
+
+It is commonly used in environments such as Active Directory for authentication and user management.
+
+LDAP runs on port 389 (unencrypted) and 636 (LDAPS).
+
+Security concerns include LDAP injection and credential exposure if encryption is not used.
+
+---
+
+## 11. Name and explain two distance vector routing protocols
+
+Two examples are:
+
 - RIP (Routing Information Protocol)
-- EIGRP
+- EIGRP (Enhanced Interior Gateway Routing Protocol)
 
-They share routing tables periodically and calculate best paths based on hop count or composite metrics.
+Distance vector protocols determine the best path based on distance metrics such as hop count. They periodically share routing tables with neighbouring routers.
 
-Security concern:
-- Route poisoning
-- Rogue route injection
+They are simpler than link-state protocols but converge more slowly.
 
 ---
 
-## Port Address Translation (PAT)
-
-PAT allows multiple internal hosts to share a single public IP by translating internal IP addresses using unique source ports.
-
-Also called NAT overload.
-
-Security relevance:
-- Hides internal addressing
-- Breaks some peer-to-peer protocols
-- Can complicate logging and attribution
-
----
-
-## MAC Addresses and OUI
+## 12. Explain MAC addresses and OUI
 
 A MAC address is a 48-bit hardware identifier assigned to network interfaces.
 
 The first 24 bits represent the Organizationally Unique Identifier (OUI), which identifies the manufacturer.
 
-Example:
-```
-00:1A:2B:XX:XX:XX
-```
+MAC addresses operate at Layer 2 and are used for communication within local networks.
 
-Security relevance:
-- MAC spoofing
-- Device fingerprinting
+MAC spoofing can be used to bypass certain network restrictions.
 
 ---
 
-# 4. Network Segmentation and Infrastructure
-
-## VLANs (Virtual Local Area Networks)
-
-VLANs logically segment a network into separate broadcast domains.
-
-Benefits:
-- Reduced broadcast traffic
-- Improved performance
-- Improved security separation
-
-VLAN misconfigurations can allow VLAN hopping attacks.
-
----
-
-## TACACS+
-
-Terminal Access Controller Access-Control System (TACACS+) provides centralised authentication for network devices.
-
-Used for:
-- Router login
-- Switch administration
-- Device access auditing
-
-Runs on TCP port 49.
-
----
-
-## LDAP (Lightweight Directory Access Protocol)
-
-LDAP is used to query and manage directory services, such as Active Directory.
-
-Ports:
-- 389 (LDAP)
-- 636 (LDAPS)
-
-Security relevance:
-- Credential exposure
-- LDAP injection
-- Directory enumeration
-
----
-
-# 5. Network Security Mechanisms
-
-## ARP-Based MITM
-
-ARP maps IP addresses to MAC addresses on local networks.
-
-In ARP poisoning:
-- Attacker sends forged ARP replies.
-- Victim associates attacker’s MAC with gateway IP.
-- Traffic flows through attacker.
-
-This enables:
-- Traffic interception
-- Credential capture
-- Session hijacking
-
----
-
-## Firewalking
+## 13. What is firewalking?
 
 Firewalking is a reconnaissance technique used to determine which ports are permitted through a firewall.
 
-It manipulates TTL values to infer firewall filtering behaviour.
+It works by manipulating packet TTL values and analysing ICMP responses to infer filtering rules.
 
-Used to map firewall rulesets indirectly.
-
----
-
-## WPA (Wi-Fi Protected Access)
-
-WPA secures wireless networks using encryption and authentication.
-
-WPA2 uses AES.
-WPA3 improves protection against brute-force attacks and offline dictionary attacks.
+It allows attackers to map firewall policies without direct access.
 
 ---
 
-## IPSec
+## 14. Explain WPA
 
-IPSec secures IP traffic using:
+Wi-Fi Protected Access (WPA) is a wireless security protocol used to protect Wi-Fi networks.
 
-- Authentication (AH)
-- Encryption (ESP)
+WPA2 uses AES encryption.
+WPA3 improves resistance to brute-force attacks and enhances authentication security.
 
-Modes:
-- Transport mode
-- Tunnel mode (commonly used in VPNs)
-
-IPSec ensures confidentiality, integrity, and authenticity.
+WPA secures data confidentiality and integrity in wireless communications.
 
 ---
 
-## Closed Ports – Why They Matter
+## 15. Explain IPSec
 
-Closed ports indicate a host is reachable but not accepting connections on that port.
+IPSec secures IP communication through encryption and authentication.
 
-While less dangerous than open ports, they:
+It operates in:
+
+- Transport mode (encrypts payload only)
+- Tunnel mode (encrypts entire packet)
+
+IPSec is commonly used in VPNs to provide secure site-to-site or remote access connectivity.
+
+---
+
+## 16. Where is the hosts file and what is its purpose?
+
+The hosts file maps domain names to IP addresses locally before DNS is queried.
+
+Windows:
+C:\Windows\System32\drivers\etc\hosts
+
+Linux:
+ /etc/hosts
+
+It is used for local name resolution and testing but can also be abused for redirection attacks.
+
+---
+
+## 17. Explain how VLANs work
+
+Virtual Local Area Networks (VLANs) logically segment networks into separate broadcast domains.
+
+Devices in different VLANs cannot communicate without routing.
+
+VLANs improve security, performance, and traffic control.
+
+Improper configuration may allow VLAN hopping attacks.
+
+---
+
+## 18. Explain TACACS
+
+TACACS+ provides centralised authentication, authorisation, and accounting (AAA) for network devices.
+
+It is commonly used for router and switch administration.
+
+It operates over TCP port 49.
+
+---
+
+## 19. Why are closed ports a cause for concern?
+
+Closed ports indicate that a host is reachable but not accepting connections on that port.
+
+While not as dangerous as open ports, they:
+
 - Confirm host availability
-- Reveal firewall behaviour
-- Provide reconnaissance data
+- Provide reconnaissance information
+- May become open if services are enabled later
+
+They reveal network presence and behaviour.
 
 ---
 
-## Setting a Source Port in nmap
+## 20. How would you set a source port in nmap and why?
 
-Example:
+You can set a source port using:
 
 ```bash
 nmap --source-port 53 <target>
 ```
 
-This sets the source port of outgoing packets.
+This may help bypass poorly configured firewalls that trust specific source ports (such as DNS traffic on port 53).
 
-Why use it?
-- Attempt firewall evasion
-- Mimic trusted traffic (e.g., DNS traffic)
-- Test filtering rules
+It is commonly used in firewall evasion testing.
