@@ -1,4 +1,4 @@
-# Networking & Security – Technical Interview Questions (Detailed Explanations)
+# Current Technology – Technical Interview Questions
 
 ---
 
