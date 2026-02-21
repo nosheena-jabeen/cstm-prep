@@ -5,10 +5,8 @@ This repository documents my preparation for the CSTM certification through stru
 ### 🎯 Approach
 
 - Concept-first understanding  
-- Practical reinforcement through labs (Immersive Labs, DVWA, HTB-style environments)  
-- Clear explanations written in my own words  
-- Methodology development and structured note-taking  
-- No proprietary or restricted exam material  
+- Practical reinforcement through labs (Immersive Labs, DVWA, HTB-style environments)   
+- Methodology development and structured note-taking
 
 ## 📂 Repository Structure
 
