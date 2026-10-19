@@ -196,6 +196,6 @@ Exporting `/` rather than a single subdirectory means every file on the server �
 
 ## Next: Exploiting the Misconfiguration
 
-The second part of this lab approaches the fully exported, `no_root_squash` server from the attacker's perspective: mounting the export as root from Kali, using that access to plant a trusted SSH key in another user's `authorized_keys`, and logging in as that user without ever knowing a password.
+The second part of this lab approaches the server from the attacker's perspective: confirming the `no_root_squash` write access as a standalone finding, then chaining it — via a fully exported `/` — into planting a trusted SSH key in another user's `authorized_keys` and logging in as that user without ever knowing a password.
 
-**Next:** `05-nfs-ssh-key-privilege-escalation.md`
+**Next:** `05-no-root-squash-privilege-escalation.md`
