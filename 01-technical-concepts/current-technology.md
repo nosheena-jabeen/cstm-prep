@@ -689,4 +689,4 @@ Industrial Control Systems (ICS) and Operational Technology (OT) commonly use:
 - BACnet
 - PROFINET
 
-These protocols often lack encryption and authentication, making them vulnerable to interception and manipulation.
+These protocols often lack encryption and authentication, which makes them vulnerable to interception and manipulation.
