@@ -14,8 +14,7 @@ When a device wants to communicate with another device on the same subnet, it:
 
 ARP operates at Layer 2 (Data Link Layer) of the OSI model.
 
-Security weakness:
-ARP has no authentication mechanism, making it vulnerable to ARP poisoning attacks, which can lead to Man-in-the-Middle (MITM) attacks.
+Security weakness: ARP has no authentication mechanism, making it vulnerable to ARP poisoning attacks, which can lead to Man-in-the-Middle (MITM) attacks.
 
 ---
 
