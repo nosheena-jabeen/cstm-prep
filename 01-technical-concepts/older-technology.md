@@ -63,6 +63,7 @@ It allows administrators to:
 - Import/export data
 
 Security risks arise when:
+
 - Exposed publicly
 - Weak credentials are used
 - Default installations remain accessible
