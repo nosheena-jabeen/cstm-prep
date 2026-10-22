@@ -43,7 +43,3 @@ Focused breakdowns of individual topics, including:
  - Protocols
  - Mitigation
  - Scope/Laws/Risk
-
----
-
-<p align="center"><em>Ongoing work. Continuously refined.</em></p>
