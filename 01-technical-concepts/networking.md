@@ -173,7 +173,7 @@ Two examples are:
 
 Distance vector protocols determine the best path based on distance metrics such as hop count. They periodically share routing tables with neighbouring routers.
 
-They are simpler than link-state protocols but converge more slowly.
+They are simpler than link-state protocols but converge more slower.
 
 ---
 
