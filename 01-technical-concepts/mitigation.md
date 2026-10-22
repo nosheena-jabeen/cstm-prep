@@ -31,7 +31,6 @@ Mitigation steps include:
 - Restrict RDP exposure using:
   - VPN access instead of direct exposure
   - IP allowlisting
-  - Bastion hosts or jump servers
 - Enable MFA for remote access.
 - Monitor RDP logs for brute-force attempts.
 
