@@ -70,8 +70,7 @@ CVSS scores range from 0.0 to 10.0 and consider:
 - User interaction
 - Impact (confidentiality, integrity, availability)
 
-CVE identifies the vulnerability.
-CVSS measures its severity.
+CVE identifies the vulnerability. CVSS measures its severity.
 
 ---
 
