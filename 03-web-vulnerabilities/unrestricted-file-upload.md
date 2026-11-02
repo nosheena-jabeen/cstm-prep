@@ -1,4 +1,4 @@
-# 10 — Unrestricted File Upload
+# Unrestricted File Upload
 
 GingerByte lab · CSTM preparation  
 Covers: file upload recon · direct PHP upload · double extension bypass · webshell RCE
