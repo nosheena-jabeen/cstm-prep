@@ -1,4 +1,4 @@
-# 08 — User Enumeration
+# User Enumeration
 
 GingerByte lab · CSTM preparation  
 Covers: username enumeration via verbose error messages · Burp Intruder automation
