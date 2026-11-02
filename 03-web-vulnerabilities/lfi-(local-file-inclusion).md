@@ -1,4 +1,4 @@
-# 09 — Local File Inclusion / Path Traversal
+# Local File Inclusion / Path Traversal
 
 GingerByte lab · CSTM preparation  
 Covers: backup file recon · directory traversal via `file` parameter · source disclosure via PHP filter wrapper
