@@ -1,4 +1,4 @@
-# 07 — Finding Hidden Pages
+# Finding Hidden Pages
 
 GingerByte lab · CSTM preparation  
 Covers: robots.txt disclosure · directory brute-force · hidden form fields · Base64-encoded credentials
